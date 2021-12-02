@@ -1,8 +1,8 @@
-from lib.AoC import get_lines
+from AoC import get_lines
 
 
 def calc_depth():
-    lines = get_lines(__file__, 'input.txt')
+    lines = get_lines('./inputs/01.txt')
 
     total_greater_than_last = 0
     last_line = None
@@ -18,7 +18,7 @@ def calc_depth():
 
 
 def calc_depth_in_threes():
-    lines = get_lines(__file__, 'input.txt')
+    lines = get_lines('./inputs/01.txt')
 
     total_greater_than_last = 0
     last_line = None
@@ -34,5 +34,6 @@ def calc_depth_in_threes():
     print(total_greater_than_last)
 
 
-calc_depth()
-calc_depth_in_threes()
+if __name__ == '__main__':
+    calc_depth()
+    calc_depth_in_threes()

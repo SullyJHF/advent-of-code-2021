@@ -1,10 +1,10 @@
 import re
 
-from lib.AoC import get_lines
+from AoC import get_lines
 
 
 def calc_position():
-    lines = get_lines(__file__, 'input.txt')
+    lines = get_lines('inputs/02.txt')
     horizontal = 0
     depth = 0
     for line in lines:
@@ -20,7 +20,7 @@ def calc_position():
 
 
 def calc_position_with_aim():
-    lines = get_lines(__file__, 'input.txt')
+    lines = get_lines('inputs/02.txt')
     horizontal = 0
     aim = 0
     depth = 0
@@ -37,5 +37,6 @@ def calc_position_with_aim():
     print(f'{horizontal*depth}')
 
 
-calc_position()
-calc_position_with_aim()
+if __name__ == '__main__':
+    calc_position()
+    calc_position_with_aim()
