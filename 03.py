@@ -10,10 +10,7 @@ def part_1():
     epsilon_rate = ''
 
     for i in range(width):
-        num_ones = 0
-        for line in lines:
-            if line[i] == '1':
-                num_ones += 1
+        num_ones = len([line for line in lines if line[i] == '1'])
 
         num_zeroes = len(lines) - num_ones
         if (num_ones > num_zeroes):
@@ -33,19 +30,14 @@ def part_2():
             return lines[0]
         if i >= len(lines[0]):
             return lines[-1]
-        num_ones = 0
-        num_zeroes = 0
-        one_list = []
-        zero_list = []
-        for line in lines:
-            if line[i] == '1':
-                num_ones += 1
-                one_list.append(line)
-            else:
-                num_zeroes += 1
-                zero_list.append(line)
+        one_list = [line for line in lines if line[i] == '1']
+        zero_list = [line for line in lines if line[i] == '0']
+        num_ones = len(one_list)
+        num_zeroes = len(zero_list)
+
         if not greater:
             zero_list, one_list = one_list, zero_list
+
         if num_ones >= num_zeroes:
             return find_num(one_list, i + 1, greater)
         else:
