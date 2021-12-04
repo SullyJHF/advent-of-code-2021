@@ -59,8 +59,6 @@ def part_1():
                 break
         if marked_board:
             break
-    print(current_draws)
-    print(winning_board)
     total = 0
     for num in winning_board:
         if num not in current_draws:
@@ -69,7 +67,39 @@ def part_1():
 
 
 def part_2():
-    raw_lines = get_lines('./inputs/04-test.txt')
+
+    raw_lines = get_lines('./inputs/04.txt')
+    draw_numbers = raw_lines[0].split(',')
+    boards, board_size = get_boards(raw_lines[1:])
+
+    current_draws = []
+    winning_draws = None
+    marked_board = None
+    winning_board = None
+    win_count = 0
+    board_wins = [False for board in boards]
+    for draw in draw_numbers:
+        winning_draws = None
+        marked_board = None
+        current_draws.append(draw)
+        for i, board in enumerate(boards):
+            marked_board = calc_win(current_draws, board, board_size)
+            # print(marked_board)
+            if marked_board:
+                board_wins[i] = True
+                win_count += 1
+                winning_board = board
+                winning_draws = current_draws
+                if all(board_wins):
+                    break
+        if all(board_wins):
+            break
+    # count indexes instead of win count??
+    total = 0
+    for num in winning_board:
+        if num not in winning_draws:
+            total += int(num)
+    print(total * int(winning_draws[-1]))
 
 
 if __name__ == '__main__':
