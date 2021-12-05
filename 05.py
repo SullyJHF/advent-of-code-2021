@@ -100,7 +100,7 @@ def part_1():
         if not line['straight']:
             continue
         fill_grid(grid, line)
-    print_grid(grid)
+    # print_grid(grid)
     total = calc_grid(grid)
     print(total)
 
@@ -111,11 +111,11 @@ def part_2():
     grid = make_grid(lines)
     for line in lines:
         fill_grid(grid, line)
-    print_grid(grid)
+    # print_grid(grid)
     total = calc_grid(grid)
     print(total)
 
 
 if __name__ == '__main__':
-    # part_1()
+    part_1()
     part_2()
