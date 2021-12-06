@@ -1,4 +1,5 @@
 import re
+from collections import Counter, defaultdict
 
 from AoC import get_lines
 
@@ -43,7 +44,28 @@ def part_1():
 
 
 def part_2():
-    raw_lines = get_lines('./inputs/06-test.txt')
+    days = 256
+    raw_lines = get_lines('./inputs/06.txt')
+    pool = [int(num) for num in raw_lines[0].strip().split(',')]
+
+    age_dict = defaultdict(int)
+    # construct dict of age:count
+    for fish_age in pool:
+        age_dict[fish_age] += 1
+
+    for day in range(days):
+        temp_age_dict = defaultdict(int)
+        for age, count in age_dict.items():
+            if age == 0:
+                # if age is 0 then add count to 6 day old and 8 day old counts
+                temp_age_dict[6] += count
+                temp_age_dict[8] += count
+            else:
+                # otherwise add count to each other fish age
+                temp_age_dict[age - 1] += count
+        # set new age dict to the calculated one
+        age_dict = temp_age_dict
+    print(sum(age_dict.values()))
 
 
 if __name__ == '__main__':
