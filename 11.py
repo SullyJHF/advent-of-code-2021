@@ -27,8 +27,6 @@ def part_1():
     octos = []
     for line in raw_lines:
         octos.append([int(char) for char in line])
-    print_octos(octos)
-    print()
     flash_count = 0
     steps = 100
     for step in range(steps):
@@ -50,7 +48,30 @@ def part_1():
 
 
 def part_2():
-    raw_lines = get_lines('./inputs/11-test.txt')
+    raw_lines = get_lines('./inputs/11.txt')
+    octos = []
+    for line in raw_lines:
+        octos.append([int(char) for char in line])
+    flash_count = 0
+    flash_target = len(octos) * len(octos[0])
+    steps = 0
+    while flash_count != flash_target:
+        for x, y in [(x, y) for x in range(len(octos[0])) for y in range(len(octos))]:
+            octos[x][y] += 1
+        flashed = get_flashed(octos)
+        all_flashed = flashed
+
+        while len(flashed):
+            for x, y in flashed:
+                octos[x][y] = 0
+                for xx, yy in get_adj(x, y, octos):
+                    if (xx, yy) not in all_flashed:
+                        octos[xx][yy] += 1
+            flashed = get_flashed(octos)
+            all_flashed += flashed
+        flash_count = len(all_flashed)
+        steps += 1
+    print(steps)
 
 
 if __name__ == '__main__':
