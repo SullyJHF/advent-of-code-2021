@@ -1,5 +1,3 @@
-import re
-
 from AoC import get_lines
 
 
