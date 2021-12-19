@@ -204,11 +204,11 @@ def magnitude(snailfish: list[int]):
     string_fish_array = list(string_fish)
     for i in range(len(done_nums), 0, -1):
         string_fish_array = list(string_fish)
-        num_string = ','.join([str(num) for num in done_nums[i - 1]])
+        num_string = f"[{','.join([str(num) for num in done_nums[i - 1]])}]"
         index = string_fish.rindex(num_string)
 
-        string_fish_array = string_fish_array[0:index - 1] + [
-            str(mags[i - 1])] + string_fish_array[index + len(num_string) + 1:]
+        string_fish_array = string_fish_array[0:index] + [
+            str(mags[i - 1])] + string_fish_array[index + len(num_string):]
         string_fish = ''.join(string_fish_array)
     if '[' in ''.join(string_fish_array):
         return magnitude(ast.literal_eval(''.join(string_fish_array)))
@@ -220,13 +220,11 @@ def test_magnitude():
     assert magnitude([[[[0, 7], 4], [[7, 8], [6, 0]]], [8, 1]]) == 1384
     assert magnitude([[[[8, 7], [7, 7]], [[8, 6], [7, 7]]], [[[0, 7], [6, 6]], [8, 7]]]) == 3488
     assert magnitude([[[[6, 6], [7, 6]], [[7, 7], [7, 0]]], [[[7, 7], [7, 7]], [[7, 8], [9, 9]]]]) == 4140
+    # assert magnitude([[[3, 9], [[9, 7], [5, 0]]], [[[9, 3], [3, 0]], [[5, 0], [8, 0]]]]) ==
 
 
 def part_1():
     raw_lines = get_lines('./inputs/18.txt')
-    test_explode()
-    test_split()
-    test_magnitude()
     snailfish = ast.literal_eval(raw_lines[0])
     for line in raw_lines[1:]:
         snailfish = add_snailfish(snailfish, ast.literal_eval(line))
@@ -242,9 +240,31 @@ def part_1():
 
 
 def part_2():
-    raw_lines = get_lines('./inputs/18-test.txt')
+    raw_lines = get_lines('./inputs/18.txt')
+    largest = 0
+    for line_a in raw_lines:
+        for line_b in raw_lines:
+            if line_a == line_b:
+                continue
+            snailfish = ast.literal_eval(line_a)
+            snailfish = add_snailfish(snailfish, ast.literal_eval(line_b))
+            what = do_what(snailfish)
+            while what != 'nothing':
+                if what == 'explode':
+                    snailfish = explode_snailfish(snailfish)
+                elif what == 'split':
+                    snailfish = split_snailfish(snailfish)
+                what = do_what(snailfish)
+            mag = magnitude(snailfish)
+            if mag > largest:
+                largest = mag
+    print(largest)
 
 
 if __name__ == '__main__':
+    test_explode()
+    test_split()
+    test_magnitude()
+
     part_1()
     part_2()
